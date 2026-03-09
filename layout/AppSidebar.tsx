@@ -27,15 +27,23 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
+  // {
+  //   icon: "",
+  //   name: "Dashboard",
+  //   subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  // },
   {
     icon: "",
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/",
   },
   {
     icon: "",
-    name: "Calendar",
-    path: "/calendar",
+    name: "Product",
+    subItems: [
+      { name: "List Product", path: "/product" },
+      { name: "Add Product", path: "/product/create" },
+    ],
   },
   // {
   //   icon: <UserCircleIcon />,
@@ -313,26 +321,21 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/logo.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/logo-white.png"
                 alt="Logo"
                 width={150}
                 height={40}
               />
             </>
           ) : (
-            <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <Image src="/logo-icon.png" alt="Logo" width={32} height={32} />
           )}
         </Link>
       </div>
@@ -356,7 +359,7 @@ const AppSidebar: React.FC = () => {
             </div>
 
             <div className="">
-              <h2
+              {/* <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
@@ -368,12 +371,12 @@ const AppSidebar: React.FC = () => {
                   : // <HorizontaLDots />
 
                     ""}
-              </h2>
+              </h2> */}
               {/* {renderMenuItems(othersItems, "others")} */}
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+        {/* {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null} */}
       </div>
     </aside>
   );
