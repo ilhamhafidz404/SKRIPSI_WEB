@@ -44,6 +44,7 @@ const Button: React.FC<ButtonProps> = ({
       }`}
       onClick={onClick}
       disabled={disabled}
+      type="submit"
     >
       {startIcon && <span className="flex items-center">{startIcon}</span>}
       {children}

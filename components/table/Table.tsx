@@ -48,10 +48,11 @@ export default function TableComponent({
                     <div className="flex items-center gap-3">
                       <div className="w-14 h-14 overflow-hidden rounded relative">
                         <Image
-                          src={data.image}
+                          src={`http://localhost:8080/uploads/${data.image}`}
                           alt={data.name}
                           fill
                           className="object-cover"
+                          unoptimized
                         />
                       </div>
                       <div>

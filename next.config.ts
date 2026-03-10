@@ -7,6 +7,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "blog.bestbuy.ca",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
