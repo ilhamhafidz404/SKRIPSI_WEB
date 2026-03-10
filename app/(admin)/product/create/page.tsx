@@ -61,57 +61,59 @@ export default function ProductCreatePage() {
     <>
       <BreadcrumbComponent pageTitle="Create Products" />
 
-      <CardComponent title="Input Detail" className="mt-5">
+      <CardComponent title="Input Detail Product" className="mt-5">
         <Form onSubmit={handleSubmit}>
-          <DropzoneComponent onFileSelect={handleImageSelect} />
+          <div className="grid grid-cols-2 gap-10 items-center">
+            <DropzoneComponent onFileSelect={handleImageSelect} />
 
-          <div className="space-y-6 grid grid-cols-2 gap-5">
-            <div>
-              <Label>Name</Label>
-              <Input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                type="text"
-                placeholder="Product Name"
-              />
-            </div>
+            <div className="grid grid-cols-2 gap-5">
+              <div>
+                <Label>Name</Label>
+                <Input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Product Name"
+                />
+              </div>
 
-            <div>
-              <Label>Code</Label>
-              <Input
-                name="code"
-                value={form.code}
-                onChange={handleChange}
-                type="text"
-                placeholder="Product Code"
-              />
-            </div>
+              <div>
+                <Label>Code</Label>
+                <Input
+                  name="code"
+                  value={form.code}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Product Code"
+                />
+              </div>
 
-            <div>
-              <Label>Price</Label>
-              <Input
-                name="price"
-                value={form.price}
-                onChange={handleChange}
-                type="number"
-                placeholder="Product Price"
-              />
-            </div>
+              <div>
+                <Label>Price</Label>
+                <Input
+                  name="price"
+                  value={form.price}
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="Product Price"
+                />
+              </div>
 
-            <div>
-              <Label>Stock</Label>
-              <Input
-                name="stock"
-                value={form.stock}
-                onChange={handleChange}
-                type="number"
-                placeholder="Product Stock"
-              />
-            </div>
+              <div>
+                <Label>Stock</Label>
+                <Input
+                  name="stock"
+                  value={form.stock}
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="Product Stock"
+                />
+              </div>
 
-            <div className="col-span-2">
-              <Button className="w-full">Submit</Button>
+              <div className="col-span-2">
+                <Button className="w-full">Submit</Button>
+              </div>
             </div>
           </div>
         </Form>
