@@ -1,8 +1,18 @@
+"use client";
+
 import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import CardComponent from "@/components/card/Card";
 import TableComponent from "@/components/table/Table";
+import { useProducts } from "@/hooks/useProduct";
 
 export default function ProductPage() {
+  const { data, isLoading, error } = useProducts();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products</p>;
+
+  console.log(data);
+
   return (
     <div>
       <BreadcrumbComponent pageTitle="Products" />
@@ -10,17 +20,7 @@ export default function ProductPage() {
         <CardComponent title="Product List">
           <TableComponent
             tableCells={["Name", "Price", "Stock", "Action"]}
-            tableData={[
-              {
-                id: 1,
-                code: "A",
-                image:
-                  "https://blog.bestbuy.ca/wp-content/uploads/2017/03/Clothes.jpg",
-                name: "Test",
-                stock: 100,
-                price: 10000,
-              },
-            ]}
+            tableData={data?.data}
           />
         </CardComponent>
       </div>

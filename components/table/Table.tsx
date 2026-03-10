@@ -18,7 +18,7 @@ export default function TableComponent({
   tableData,
 }: {
   tableCells: string[];
-  tableData: Product[];
+  tableData: Product[] | undefined;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
@@ -42,7 +42,7 @@ export default function TableComponent({
 
             {/* Table Body */}
             <TableBody className="divide-y divide-gray-100 dark:divide-white/5">
-              {tableData.map((data) => (
+              {tableData?.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell className="px-5 py-4 sm:px-6 text-start">
                     <div className="flex items-center gap-3">
