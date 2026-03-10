@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/services/productService";
 
-export function useProducts() {
+export function useProducts(page: number) {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
+    queryKey: ["products", page],
+    queryFn: () => getProducts(page),
   });
 }

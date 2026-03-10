@@ -1,7 +1,7 @@
 import { ProductResponse } from "@/types/product";
 
-export async function getProducts(): Promise<ProductResponse> {
-  const res = await fetch("http://localhost:8080/api/products");
+export async function getProducts(page: number) {
+  const res = await fetch(`http://localhost:8080/api/products?page=${page}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");
