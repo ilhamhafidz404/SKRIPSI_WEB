@@ -9,3 +9,16 @@ export async function getProducts(): Promise<ProductResponse> {
 
   return res.json();
 }
+
+export async function createProduct(formData: FormData) {
+  const res = await fetch("http://localhost:8080/api/products", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create product");
+  }
+
+  return res.json();
+}

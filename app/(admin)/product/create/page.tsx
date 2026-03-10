@@ -1,5 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { useCreateProduct } from "@/hooks/useCreateProduct";
+
+//
 import CardComponent from "@/components/card/Card";
 import DropzoneComponent from "@/components/form/DropZone";
 import Button from "@/components/button/Button";
@@ -9,6 +12,8 @@ import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import Form from "@/components/form/Form";
 
 export default function ProductCreatePage() {
+  const createProductMutation = useCreateProduct();
+
   const [image, setImage] = useState<File | null>(null);
   const [form, setForm] = useState({
     name: "",
@@ -36,21 +41,7 @@ export default function ProductCreatePage() {
       formData.append("image", image);
     }
 
-    console.log(formData);
-
-    try {
-      const res = await fetch("http://localhost:8080/api/products", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      console.log(data);
-
-      alert("Product created successfully");
-    } catch (error) {
-      console.error(error);
-    }
+    createProductMutation.mutate(formData);
   };
 
   const handleImageSelect = (file: File) => {
