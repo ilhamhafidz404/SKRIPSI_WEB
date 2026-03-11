@@ -1,13 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { useProducts } from "@/hooks/useProduct";
+import { useQueryClient } from "@tanstack/react-query";
+import { getProducts } from "@/services/productService";
+
+//
 import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import CardComponent from "@/components/card/Card";
 import Pagination from "@/components/pagination/Pagination";
 import TableComponent from "@/components/table/Table";
-import { useProducts } from "@/hooks/useProduct";
-import { getProducts } from "@/services/productService";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useModal } from "@/components/modal/hooks/useModal";
+import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
@@ -24,6 +29,15 @@ export default function ProductPage() {
       });
     }
   }, [page]);
+
+  // modal
+  const { isOpen, openModal, closeModal } = useModal();
+  const handleSave = () => {
+    console.log("Saving changes...");
+    closeModal();
+  };
+
+  //
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
@@ -48,8 +62,15 @@ export default function ProductPage() {
           <TableComponent
             tableCells={["Name", "Price", "Stock", "Action"]}
             tableData={data?.data}
+            onButtonDeleteClicked={openModal}
           />
         </CardComponent>
+
+        <ConfirmationModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          handleSubmit={handleSave}
+        />
 
         <Pagination
           currentPage={data.meta.page}

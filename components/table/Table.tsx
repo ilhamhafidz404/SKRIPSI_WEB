@@ -16,9 +16,11 @@ interface Product {
 export default function TableComponent({
   tableCells,
   tableData,
+  onButtonDeleteClicked,
 }: {
   tableCells: string[];
   tableData: Product[] | undefined;
+  onButtonDeleteClicked: () => void;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
@@ -76,7 +78,13 @@ export default function TableComponent({
                       <Button size="sm" variant="primary">
                         Edit
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          onButtonDeleteClicked();
+                        }}
+                      >
                         Delete
                       </Button>
                     </div>
