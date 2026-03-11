@@ -1,26 +1,35 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { IconUpload } from "@intentui/icons";
 
 interface DropzoneProps {
   onFileSelect?: (file: File) => void;
+  defaultImage?: string;
 }
 
-const DropzoneComponent: React.FC<DropzoneProps> = ({ onFileSelect }) => {
+const DropzoneComponent: React.FC<DropzoneProps> = ({
+  onFileSelect,
+  defaultImage,
+}) => {
   const [preview, setPreview] = useState<string | null>(null);
+
+  // set preview dari image existing
+  useEffect(() => {
+    if (defaultImage) {
+      setPreview(defaultImage);
+    }
+  }, [defaultImage]);
 
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
 
     const file = acceptedFiles[0];
 
-    // kirim file ke parent (form)
     if (onFileSelect) {
       onFileSelect(file);
     }
 
-    // buat preview image
     const previewUrl = URL.createObjectURL(file);
     setPreview(previewUrl);
   };
@@ -46,13 +55,11 @@ const DropzoneComponent: React.FC<DropzoneProps> = ({ onFileSelect }) => {
             ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
             : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
         }`}
-        id="demo-upload"
       >
         <input {...getInputProps()} />
 
         <div className="dz-message flex flex-col items-center m-0!">
-          {/* Preview Image */}
-          {preview && (
+          {preview ? (
             <>
               <img
                 src={preview}
@@ -60,16 +67,13 @@ const DropzoneComponent: React.FC<DropzoneProps> = ({ onFileSelect }) => {
                 className="mb-5 max-h-40 rounded-lg object-cover"
               />
 
-              <h4 className="mb-3 font-semibold text-gray-800 text-theme-xl dark:text-white/90">
+              <h4 className="mb-3 font-semibold text-gray-800 text-theme-xl dark:text-white/90 text-center">
                 {isDragActive
                   ? "Drop Files Here To Change Image"
                   : "Drag & Drop Files Here To Change Image"}
               </h4>
             </>
-          )}
-
-          {/* Icon Container */}
-          {!preview && (
+          ) : (
             <>
               <div className="mb-5.5 flex justify-center">
                 <div className="flex h-17 w-17 items-center justify-center rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400">
@@ -83,7 +87,7 @@ const DropzoneComponent: React.FC<DropzoneProps> = ({ onFileSelect }) => {
             </>
           )}
 
-          <span className=" text-center mb-5 block w-full max-w-72.5 text-sm text-gray-700 dark:text-gray-400">
+          <span className="text-center mb-5 block w-full max-w-72.5 text-sm text-gray-700 dark:text-gray-400">
             Drag and drop your PNG, JPG, WebP, SVG images here or browse
           </span>
 

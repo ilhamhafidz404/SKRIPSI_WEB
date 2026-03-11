@@ -14,6 +14,8 @@ import TableComponent from "@/components/table/Table";
 import { useModal } from "@/components/modal/hooks/useModal";
 import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
 import { useDeleteProduct } from "@/hooks/useDeleteProduct";
+import { Product } from "@/types/product";
+import EditProductDrawer from "@/components/drawer/Drawer";
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
@@ -21,6 +23,9 @@ export default function ProductPage() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const deleteMutation = useDeleteProduct();
+
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // pre-fetch next page
   const queryClient = useQueryClient();
@@ -45,6 +50,11 @@ export default function ProductPage() {
         setSelectedId(null);
       },
     });
+  };
+
+  const handleEdit = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDrawerOpen(true);
   };
 
   //
@@ -72,6 +82,9 @@ export default function ProductPage() {
           <TableComponent
             tableCells={["Name", "Price", "Stock", "Action"]}
             tableData={data?.data}
+            onButtonEditClicked={(product: Product) => {
+              handleEdit(product);
+            }}
             onButtonDeleteClicked={(id: number) => {
               setSelectedId(id);
               openModal();
@@ -83,6 +96,12 @@ export default function ProductPage() {
           isOpen={isOpen}
           closeModal={closeModal}
           handleSubmit={handleDelete}
+        />
+
+        <EditProductDrawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          product={selectedProduct}
         />
 
         <Pagination

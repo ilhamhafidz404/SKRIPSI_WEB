@@ -17,10 +17,12 @@ export default function TableComponent({
   tableCells,
   tableData,
   onButtonDeleteClicked,
+  onButtonEditClicked,
 }: {
   tableCells: string[];
   tableData: Product[] | undefined;
   onButtonDeleteClicked: (id: number) => void;
+  onButtonEditClicked?: (product: Product) => void;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
@@ -75,7 +77,11 @@ export default function TableComponent({
                   </TableCell>
                   <TableCell className="px-5 py-4 sm:px-6 text-start">
                     <div className="flex gap-2">
-                      <Button size="sm" variant="primary">
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        onClick={() => onButtonEditClicked?.(data)}
+                      >
                         Edit
                       </Button>
                       <Button
