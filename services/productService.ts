@@ -23,6 +23,19 @@ export async function createProduct(formData: FormData) {
   return res.json();
 }
 
+export const updateProduct = async (id: number, data: FormData) => {
+  const res = await fetch(`http://localhost:8080/api/products/${id}`, {
+    method: "PUT",
+    body: data,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update product");
+  }
+
+  return res.json();
+};
+
 export const deleteProduct = async (id: number) => {
   const res = await fetch(`http://localhost:8080/api/products/${id}`, {
     method: "DELETE",
