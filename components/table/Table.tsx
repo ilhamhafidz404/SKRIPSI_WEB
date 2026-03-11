@@ -20,7 +20,7 @@ export default function TableComponent({
 }: {
   tableCells: string[];
   tableData: Product[] | undefined;
-  onButtonDeleteClicked: () => void;
+  onButtonDeleteClicked: (id: number) => void;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
@@ -81,9 +81,7 @@ export default function TableComponent({
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => {
-                          onButtonDeleteClicked();
-                        }}
+                        onClick={() => onButtonDeleteClicked(data.id)}
                       >
                         Delete
                       </Button>

@@ -13,10 +13,14 @@ import Pagination from "@/components/pagination/Pagination";
 import TableComponent from "@/components/table/Table";
 import { useModal } from "@/components/modal/hooks/useModal";
 import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
+import { useDeleteProduct } from "@/hooks/useDeleteProduct";
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useProducts(page);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const deleteMutation = useDeleteProduct();
 
   // pre-fetch next page
   const queryClient = useQueryClient();
@@ -32,9 +36,15 @@ export default function ProductPage() {
 
   // modal
   const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    console.log("Saving changes...");
-    closeModal();
+  const handleDelete = () => {
+    if (!selectedId) return;
+
+    deleteMutation.mutate(selectedId, {
+      onSuccess: () => {
+        closeModal();
+        setSelectedId(null);
+      },
+    });
   };
 
   //
@@ -62,14 +72,17 @@ export default function ProductPage() {
           <TableComponent
             tableCells={["Name", "Price", "Stock", "Action"]}
             tableData={data?.data}
-            onButtonDeleteClicked={openModal}
+            onButtonDeleteClicked={(id: number) => {
+              setSelectedId(id);
+              openModal();
+            }}
           />
         </CardComponent>
 
         <ConfirmationModal
           isOpen={isOpen}
           closeModal={closeModal}
-          handleSubmit={handleSave}
+          handleSubmit={handleDelete}
         />
 
         <Pagination

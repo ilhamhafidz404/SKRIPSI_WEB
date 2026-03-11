@@ -10,7 +10,7 @@ interface ModalProps {
   isFullscreen?: boolean; // Default to false for backwards compatibility
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const ModalComponent: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,

@@ -22,3 +22,15 @@ export async function createProduct(formData: FormData) {
 
   return res.json();
 }
+
+export const deleteProduct = async (id: number) => {
+  const res = await fetch(`http://localhost:8080/api/products/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete product");
+  }
+
+  return res.json();
+};

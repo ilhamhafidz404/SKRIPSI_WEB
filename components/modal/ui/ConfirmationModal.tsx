@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "../Modal";
+import { ModalComponent } from "../Modal";
 import Button from "@/components/button/Button";
 
 export default function ConfirmationModal({
@@ -12,7 +12,11 @@ export default function ConfirmationModal({
   handleSubmit: () => void;
 }) {
   return (
-    <Modal isOpen={isOpen} onClose={closeModal} className="max-w-175 m-4">
+    <ModalComponent
+      isOpen={isOpen}
+      onClose={closeModal}
+      className="max-w-175 m-4"
+    >
       <div className="relative w-full p-4 overflow-y-auto bg-white no-scrollbar rounded-3xl dark:bg-gray-900 lg:p-11">
         <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
           Are You Sure?
@@ -30,6 +34,6 @@ export default function ConfirmationModal({
           </Button>
         </div>
       </div>
-    </Modal>
+    </ModalComponent>
   );
 }
