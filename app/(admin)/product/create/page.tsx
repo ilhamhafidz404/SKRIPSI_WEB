@@ -23,9 +23,32 @@ export default function ProductCreatePage() {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+
+    setForm((prev) => {
+      const newForm = { ...prev, [name]: value };
+
+      // Logika Auto-Generate Code jika input yang berubah adalah 'name'
+      if (name === "name") {
+        const words = value.trim().split(/\s+/);
+        let initials = words
+          .map((word) => word.charAt(0).toUpperCase())
+          .join("")
+          .slice(0, 3); // Ambil maks 3 inisial
+
+        // Jika nama kosong, kosongkan juga kodenya
+        if (value === "") {
+          newForm.code = "";
+        } else {
+          // Gunakan angka acak atau statis sementara
+          // Di produksi, angka ini sebaiknya di-generate di Backend
+          // tapi untuk UX Frontend, kita bisa berikan placeholder/random
+          const randomDigits = Math.floor(1000 + Math.random() * 9000);
+          newForm.code = `${initials}${randomDigits}`;
+        }
+      }
+
+      return newForm;
     });
   };
 
@@ -76,7 +99,9 @@ export default function ProductCreatePage() {
                   value={form.code}
                   onChange={handleChange}
                   type="text"
-                  placeholder="Product Code"
+                  placeholder="Generated Code"
+                  readonly
+                  className="bg-gray-100 cursor-not-allowed" // Beri style visual
                 />
               </div>
 
