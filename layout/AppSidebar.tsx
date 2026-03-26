@@ -18,6 +18,7 @@ import { useSidebar } from "../context/SidebarContext";
 //   UserCircleIcon,
 // } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
+import { IconCartFill, IconDashboardFill } from "@intentui/icons";
 
 type NavItem = {
   name: string;
@@ -33,17 +34,14 @@ const navItems: NavItem[] = [
   //   subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   // },
   {
-    icon: "",
+    icon: <IconDashboardFill />,
     name: "Dashboard",
     path: "/",
   },
   {
-    icon: "",
+    icon: <IconCartFill />,
     name: "Product",
-    subItems: [
-      { name: "List Product", path: "/product" },
-      { name: "Add Product", path: "/product/create" },
-    ],
+    path: "/product",
   },
   // {
   //   icon: <UserCircleIcon />,

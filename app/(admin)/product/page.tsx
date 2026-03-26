@@ -6,7 +6,6 @@ import { useProducts } from "@/hooks/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
 import { getProducts } from "@/services/productService";
 
-//
 import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import CardComponent from "@/components/card/Card";
 import Pagination from "@/components/pagination/Pagination";
@@ -15,21 +14,21 @@ import { useModal } from "@/components/modal/hooks/useModal";
 import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
 import { useDeleteProduct } from "@/hooks/useDeleteProduct";
 import { Product } from "@/types/product";
-import EditProductDrawer from "@/components/drawer/Drawer";
+import Button from "@/components/button/Button";
+import { IconPlus } from "@intentui/icons";
+import ProductFormDrawer from "@/components/drawer/Drawer";
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useProducts(page);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  const deleteMutation = useDeleteProduct();
-
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // pre-fetch next page
+  const deleteMutation = useDeleteProduct();
   const queryClient = useQueryClient();
 
+  // Pre-fetch next page
   useEffect(() => {
     if (page < data?.meta.total_page) {
       queryClient.prefetchQuery({
@@ -39,11 +38,11 @@ export default function ProductPage() {
     }
   }, [page]);
 
-  // modal
+  // Modal delete
   const { isOpen, openModal, closeModal } = useModal();
+
   const handleDelete = () => {
     if (!selectedId) return;
-
     deleteMutation.mutate(selectedId, {
       onSuccess: () => {
         closeModal();
@@ -57,7 +56,15 @@ export default function ProductPage() {
     setIsDrawerOpen(true);
   };
 
-  //
+  const handleAdd = () => {
+    setSelectedProduct(null);
+    setIsDrawerOpen(true);
+  };
+
+  const resetDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedProduct(null);
+  };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading products</p>;
@@ -65,26 +72,31 @@ export default function ProductPage() {
   const handlePageChange = (newPage: number) => {
     if (newPage < 1) return;
     if (newPage > data.meta.total_page) return;
-
     setPage(newPage);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <div>
       <BreadcrumbComponent pageTitle="Products" />
       <div className="space-y-6">
-        <CardComponent title="Product List">
+        <CardComponent
+          title="Product List"
+          cardActions={
+            <Button
+              size="xs"
+              variant="primary"
+              startIcon={<IconPlus />}
+              onClick={handleAdd}
+            >
+              Create New Product
+            </Button>
+          }
+        >
           <TableComponent
             tableCells={["Name", "Price", "Stock", "Action"]}
             tableData={data?.data}
-            onButtonEditClicked={(product: Product) => {
-              handleEdit(product);
-            }}
+            onButtonEditClicked={(product: Product) => handleEdit(product)}
             onButtonDeleteClicked={(id: number) => {
               setSelectedId(id);
               openModal();
@@ -98,9 +110,10 @@ export default function ProductPage() {
           handleSubmit={handleDelete}
         />
 
-        <EditProductDrawer
+        <ProductFormDrawer
+          action={selectedProduct ? "Edit" : "Add"}
           isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
+          onClose={resetDrawer}
           product={selectedProduct}
         />
 
