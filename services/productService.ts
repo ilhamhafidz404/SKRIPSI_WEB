@@ -1,7 +1,15 @@
-import { ProductResponse } from "@/types/product";
-
 export async function getProducts(page: number) {
   const res = await fetch(`http://localhost:8080/api/products?page=${page}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  return res.json();
+}
+
+export async function showProduct(code: string) {
+  const res = await fetch(`http://localhost:8080/api/products/${code}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");

@@ -101,7 +101,7 @@ export default function ProductCreatePage() {
                   type="text"
                   placeholder="Generated Code"
                   readonly
-                  className="bg-gray-100 cursor-not-allowed" // Beri style visual
+                  className="bg-gray-100 cursor-not-allowed"
                 />
               </div>
 

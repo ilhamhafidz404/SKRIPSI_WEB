@@ -1,18 +1,20 @@
-// app/products/[slug]/page.js
+"use client";
 
-export default async function ProductShowPage({
-  params,
-}: {
-  params: { code: string };
-}) {
-  const { code } = await params;
+import { useShowProduct } from "@/hooks/useProduct";
+import { useParams, useRouter } from "next/navigation";
+
+export default function ProductDetailPage() {
+  const router = useRouter();
+
+  const { code } = useParams<{ code: string }>();
+
+  const { data, isLoading, error } = useShowProduct(code);
+
+  console.log(data);
 
   return (
     <div>
-      <h1>Detail Produk</h1>
-      <p>
-        Menampilkan produk dengan code: <strong>{code}</strong>
-      </p>
+      <h1>Hello</h1>
     </div>
   );
 }
