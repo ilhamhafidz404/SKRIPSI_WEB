@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Button from "../button/Button";
 import { formatRupiah } from "@/utils/FormatRupiah";
 
@@ -24,6 +25,8 @@ export default function TableComponent({
   onButtonDeleteClicked: (id: number) => void;
   onButtonEditClicked?: (product: Product) => void;
 }) {
+  const router = useRouter();
+
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
       <div className="max-w-full overflow-x-auto">
@@ -49,7 +52,10 @@ export default function TableComponent({
               {tableData?.map((data) => (
                 <TableRow key={data.id}>
                   <TableCell className="px-5 py-4 sm:px-6 text-start">
-                    <div className="flex items-center gap-3">
+                    <div
+                      className="flex items-center gap-3 cursor-pointer"
+                      onClick={() => router.push(`/product/${data.code}`)}
+                    >
                       <div className="w-14 h-14 overflow-hidden rounded relative">
                         <Image
                           src={`http://localhost:8080/uploads/${data.image}`}

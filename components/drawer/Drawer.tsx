@@ -99,9 +99,7 @@ export default function EditProductDrawer({ isOpen, onClose, product }: Props) {
   };
 
   return (
-    <div
-      className={`fixed inset-0 z-[9999] ${isOpen ? "visible" : "invisible"}`}
-    >
+    <div className={`fixed inset-0 z-9999 ${isOpen ? "visible" : "invisible"}`}>
       {/* Backdrop */}
       <div
         onClick={onClose}
