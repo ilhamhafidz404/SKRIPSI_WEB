@@ -14,6 +14,8 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   product?: Product | null;
+  onSuccess?: (message: string) => void;
+  onError?: (message: string) => void;
 }
 
 interface ProductFormValues {
@@ -28,6 +30,8 @@ export default function ProductFormDrawer({
   isOpen,
   onClose,
   product,
+  onSuccess,
+  onError,
 }: Props) {
   const updateMutation = useUpdateProduct();
   const createMutation = useCreateProduct();
@@ -42,15 +46,9 @@ export default function ProductFormDrawer({
     watch,
     formState: { errors },
   } = useForm<ProductFormValues>({
-    defaultValues: {
-      name: "",
-      code: "",
-      price: "",
-      stock: "",
-    },
+    defaultValues: { name: "", code: "", price: "", stock: "" },
   });
 
-  // Reset form setiap kali drawer dibuka
   useEffect(() => {
     if (isOpen) {
       reset({
@@ -63,7 +61,6 @@ export default function ProductFormDrawer({
     }
   }, [isOpen, product, reset]);
 
-  // Auto-generate code dari nama produk
   const nameValue = watch("name");
   useEffect(() => {
     if (nameValue === "") {
@@ -89,19 +86,30 @@ export default function ProductFormDrawer({
     formData.append("code", data.code);
     formData.append("price", data.price);
     formData.append("stock", data.stock);
-
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    if (imageFile) formData.append("image", imageFile);
 
     if (action === "Edit" && product) {
       updateMutation.mutate(
         { id: product.id, data: formData },
-        { onSuccess: () => onClose() },
+        {
+          onSuccess: () => {
+            onClose();
+            onSuccess?.("Product updated successfully.");
+          },
+          onError: () => {
+            onError?.("Failed to update product. Please try again.");
+          },
+        },
       );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => onClose(),
+        onSuccess: () => {
+          onClose();
+          onSuccess?.("Product created successfully.");
+        },
+        onError: () => {
+          onError?.("Failed to create product. Please try again.");
+        },
       });
     }
   };
@@ -127,7 +135,6 @@ export default function ProductFormDrawer({
         ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="p-6 h-full flex flex-col">
-          {/* Header */}
           <div className="flex justify-between items-center mb-6 border-b pb-4">
             <h2 className="text-lg font-semibold">{action} Product</h2>
             <button
@@ -138,7 +145,6 @@ export default function ProductFormDrawer({
             </button>
           </div>
 
-          {/* Form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-4 flex-1 overflow-y-auto pr-2 flex flex-col"
@@ -219,7 +225,6 @@ export default function ProductFormDrawer({
               </div>
             </div>
 
-            {/* Footer */}
             <div className="mt-6 flex justify-end gap-3 border-t pt-4">
               <button
                 type="button"
@@ -228,7 +233,6 @@ export default function ProductFormDrawer({
               >
                 Cancel
               </button>
-
               <button
                 type="submit"
                 disabled={isPending}

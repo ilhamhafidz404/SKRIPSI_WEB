@@ -18,15 +18,25 @@ import Button from "@/components/button/Button";
 import { IconPlus } from "@intentui/icons";
 import ProductFormDrawer from "@/components/drawer/Drawer";
 
+type AlertType = { type: "success" | "error"; message: string } | null;
+
 export default function ProductPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useProducts(page);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [alert, setAlert] = useState<AlertType>(null);
 
   const deleteMutation = useDeleteProduct();
   const queryClient = useQueryClient();
+
+  // Auto-dismiss alert setelah 3 detik
+  useEffect(() => {
+    if (!alert) return;
+    const timer = setTimeout(() => setAlert(null), 3000);
+    return () => clearTimeout(timer);
+  }, [alert]);
 
   // Pre-fetch next page
   useEffect(() => {
@@ -38,7 +48,6 @@ export default function ProductPage() {
     }
   }, [page]);
 
-  // Modal delete
   const { isOpen, openModal, closeModal } = useModal();
 
   const handleDelete = () => {
@@ -47,6 +56,14 @@ export default function ProductPage() {
       onSuccess: () => {
         closeModal();
         setSelectedId(null);
+        setAlert({ type: "success", message: "Product deleted successfully." });
+      },
+      onError: () => {
+        closeModal();
+        setAlert({
+          type: "error",
+          message: "Failed to delete product. Please try again.",
+        });
       },
     });
   };
@@ -79,6 +96,25 @@ export default function ProductPage() {
   return (
     <div>
       <BreadcrumbComponent pageTitle="Products" />
+
+      {/* Alert */}
+      {alert && (
+        <div
+          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${
+            alert.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          <span>{alert.type === "success" ? "✅" : "❌"}</span>
+          <span>{alert.message}</span>
+          <button
+            onClick={() => setAlert(null)}
+            className="ml-2 text-white/70 hover:text-white"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <div className="space-y-6">
         <CardComponent
           title="Product List"
@@ -115,6 +151,8 @@ export default function ProductPage() {
           isOpen={isDrawerOpen}
           onClose={resetDrawer}
           product={selectedProduct}
+          onSuccess={(message) => setAlert({ type: "success", message })}
+          onError={(message) => setAlert({ type: "error", message })}
         />
 
         <Pagination

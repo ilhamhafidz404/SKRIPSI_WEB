@@ -9,8 +9,6 @@ export function useCreateProduct() {
   return useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
-      alert("Product created successfully");
-
       queryClient.invalidateQueries({
         queryKey: ["products"],
       });
