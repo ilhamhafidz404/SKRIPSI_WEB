@@ -54,7 +54,7 @@ function QRModal({ serial, onClose }: { serial: string; onClose: () => void }) {
           height={220}
           className="rounded-lg"
         />
-        <p className="mt-3 max-w-[220px] break-all text-center font-mono text-[10px] text-gray-400">
+        <p className="mt-3 max-w-55 break-all text-center font-mono text-[10px] text-gray-400">
           {serial}
         </p>
         <a
@@ -179,7 +179,7 @@ export default function ProductDetailPage() {
                   {/* Table Body */}
                   <TableBody className="divide-y divide-gray-100 dark:divide-white/5">
                     {product?.items.map((item: any) => (
-                      <TableRow>
+                      <TableRow key={item.id}>
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           {item.serial_number}
                         </TableCell>
