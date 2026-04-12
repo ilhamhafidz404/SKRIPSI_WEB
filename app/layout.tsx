@@ -1,9 +1,7 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import "flatpickr/dist/flatpickr.css";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { SidebarProvider } from "@/context/SidebarContext";
-import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import AppProvider from "@/providers/AppProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -11,17 +9,13 @@ const outfit = Outfit({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${outfit.className} dark:bg-gray-900`}>
-        <ReactQueryProvider>
-          <ThemeProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );

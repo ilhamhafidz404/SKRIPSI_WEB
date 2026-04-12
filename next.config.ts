@@ -2,6 +2,7 @@
 const nextConfig = {
   turbopack: {},
   images: {
+    domains: ["lh3.googleusercontent.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -14,6 +15,9 @@ const nextConfig = {
         pathname: "/uploads/**",
       },
     ],
+  },
+  session: {
+    strategy: "jwt",
   },
 };
 
