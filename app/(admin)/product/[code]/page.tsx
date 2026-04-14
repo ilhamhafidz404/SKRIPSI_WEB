@@ -3,7 +3,7 @@
 import Image from "next/image";
 import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import CardComponent from "@/components/card/Card";
-import { useShowProduct } from "@/hooks/useProduct";
+import { useShowProduct } from "@/hooks/products/useProduct";
 import { useParams } from "next/navigation";
 import {
   Table,

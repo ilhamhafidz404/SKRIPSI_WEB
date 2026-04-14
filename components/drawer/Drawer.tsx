@@ -6,8 +6,8 @@ import { Product } from "@/types/product";
 import Label from "../form/Label";
 import Input from "../form/InputField";
 import DropzoneComponent from "../form/DropZone";
-import { useUpdateProduct } from "@/hooks/useUpdateProduct";
-import { useCreateProduct } from "@/hooks/useCreateProduct";
+import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
+import { useCreateProduct } from "@/hooks/products/useCreateProduct";
 
 interface Props {
   action: "Add" | "Edit";

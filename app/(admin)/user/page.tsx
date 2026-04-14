@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useProducts } from "@/hooks/products/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
-import { getProducts } from "@/services/productService";
 
 import BreadcrumbComponent from "@/components/breadcrumb/Breadcrumb";
 import CardComponent from "@/components/card/Card";
@@ -13,22 +11,17 @@ import TableComponent from "@/components/table/Table";
 import { useModal } from "@/components/modal/hooks/useModal";
 import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
-import { Product } from "@/types/product";
 import Button from "@/components/button/Button";
-import { IconPlus } from "@intentui/icons";
-import ProductFormDrawer from "@/components/drawer/Drawer";
 import { TableCell } from "@/components/table/ui";
-import { formatRupiah } from "@/utils/FormatRupiah";
-import Image from "next/image";
+import { getUsers } from "@/services/userService";
+import { useUsers } from "@/hooks/users/useUser";
 
 type AlertType = { type: "success" | "error"; message: string } | null;
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
-  const { data, isLoading, error } = useProducts(page);
+  const { data, isLoading, error } = useUsers(page);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [alert, setAlert] = useState<AlertType>(null);
 
   const deleteMutation = useDeleteProduct();
@@ -45,8 +38,8 @@ export default function ProductPage() {
   useEffect(() => {
     if (page < data?.meta.total_page) {
       queryClient.prefetchQuery({
-        queryKey: ["products", page + 1],
-        queryFn: () => getProducts(page + 1),
+        queryKey: ["users", page + 1],
+        queryFn: () => getUsers(page + 1),
       });
     }
   }, [page]);
@@ -71,23 +64,8 @@ export default function ProductPage() {
     });
   };
 
-  const handleEdit = (product: Product) => {
-    setSelectedProduct(product);
-    setIsDrawerOpen(true);
-  };
-
-  const handleAdd = () => {
-    setSelectedProduct(null);
-    setIsDrawerOpen(true);
-  };
-
-  const resetDrawer = () => {
-    setIsDrawerOpen(false);
-    setSelectedProduct(null);
-  };
-
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading products</p>;
+  if (error) return <p>Error loading users</p>;
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1) return;
@@ -98,7 +76,7 @@ export default function ProductPage() {
 
   return (
     <div>
-      <BreadcrumbComponent pageTitle="Products" />
+      <BreadcrumbComponent pageTitle="Users" />
 
       {/* Alert */}
       {alert && (
@@ -119,54 +97,46 @@ export default function ProductPage() {
       )}
 
       <div className="space-y-6">
-        <CardComponent
-          title="Product List"
-          cardActions={
-            <Button
-              size="xs"
-              variant="primary"
-              startIcon={<IconPlus />}
-              onClick={handleAdd}
-            >
-              Create New Product
-            </Button>
-          }
-        >
+        <CardComponent title="User List">
           <TableComponent
-            tableCells={["Product", "Price", "Stock", "Action"]}
+            tableCells={["User", "Email", "Status", "Action"]}
             tableData={data?.data}
-            renderRow={(product: Product) => (
+            renderRow={(user: User) => (
               <>
+                {/* Kolom User (Avatar + Name) */}
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 overflow-hidden rounded relative">
+                    {/* <div className="w-10 h-10 overflow-hidden rounded-full relative">
                       <Image
-                        src={`http://localhost:8080/uploads/${product.image}`}
-                        alt={product.name}
+                        src={`http://localhost:8080/uploads/${user.avatar}`}
+                        alt={user.name}
                         fill
                         className="object-cover"
                         unoptimized
                       />
-                    </div>
-                    <div>
-                      <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                        {product.name}
-                      </span>
-                      <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                        {product.code}
-                      </span>
-                    </div>
+                    </div> */}
+                    <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                      {user.name}
+                    </span>
                   </div>
                 </TableCell>
 
-                {/* Kolom Price */}
-                <TableCell className="px-5 py-4 sm:px-6 text-start">
-                  {formatRupiah(product.price)}
+                {/* Kolom Email */}
+                <TableCell className="px-5 py-4 sm:px-6 text-start text-gray-500 text-theme-sm">
+                  {user.email}
                 </TableCell>
 
-                {/* Kolom Stock */}
+                {/* Kolom Status */}
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
-                  {product.stock}
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      user.is_active
+                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                    }`}
+                  >
+                    {user.is_active ? "Active" : "Inactive"}
+                  </span>
                 </TableCell>
 
                 {/* Kolom Action */}
@@ -174,16 +144,9 @@ export default function ProductPage() {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      variant="primary"
-                      onClick={() => handleEdit(product)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
                       variant="outline"
                       onClick={() => {
-                        setSelectedId(product.id);
+                        setSelectedId(user.id);
                         openModal();
                       }}
                     >
@@ -200,15 +163,6 @@ export default function ProductPage() {
           isOpen={isOpen}
           closeModal={closeModal}
           handleSubmit={handleDelete}
-        />
-
-        <ProductFormDrawer
-          action={selectedProduct ? "Edit" : "Add"}
-          isOpen={isDrawerOpen}
-          onClose={resetDrawer}
-          product={selectedProduct}
-          onSuccess={(message) => setAlert({ type: "success", message })}
-          onError={(message) => setAlert({ type: "error", message })}
         />
 
         <Pagination

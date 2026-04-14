@@ -1,32 +1,16 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui";
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import Button from "../button/Button";
-import { formatRupiah } from "@/utils/FormatRupiah";
-
-interface Product {
-  id: number;
-  code: string;
-  name: string;
-  image: string;
-  stock: number;
-  price: number;
+interface TableComponentProps<T> {
+  tableCells: string[];
+  tableData: T[] | undefined;
+  renderRow: (item: T) => React.ReactNode;
 }
 
-export default function TableComponent({
+export default function TableComponent<T extends { id: number }>({
   tableCells,
   tableData,
-  onButtonDeleteClicked,
-  onButtonEditClicked,
-}: {
-  tableCells: string[];
-  tableData: Product[] | undefined;
-  onButtonDeleteClicked: (id: number) => void;
-  onButtonEditClicked?: (product: Product) => void;
-}) {
-  const router = useRouter();
-
+  renderRow,
+}: TableComponentProps<T>) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/5 dark:bg-white/3">
       <div className="max-w-full overflow-x-auto">
@@ -50,68 +34,19 @@ export default function TableComponent({
             {/* Table Body */}
             <TableBody className="divide-y divide-gray-100 dark:divide-white/5">
               {tableData?.length ? (
-                tableData?.map((data) => (
-                  <TableRow key={data.id}>
-                    <TableCell className="px-5 py-4 sm:px-6 text-start">
-                      <div
-                        className="flex items-center gap-3 cursor-pointer"
-                        onClick={() => router.push(`/product/${data.code}`)}
-                      >
-                        <div className="w-14 h-14 overflow-hidden rounded relative">
-                          <Image
-                            src={`http://localhost:8080/uploads/${data.image}`}
-                            alt={data.name}
-                            fill
-                            className="object-cover"
-                            unoptimized
-                          />
-                        </div>
-                        <div>
-                          <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                            {data.name}
-                          </span>
-                          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                            {data.code}
-                          </span>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-5 py-4 sm:px-6 text-start">
-                      {formatRupiah(data.price)}
-                    </TableCell>
-                    <TableCell className="px-5 py-4 sm:px-6 text-start">
-                      {data.stock}
-                    </TableCell>
-                    <TableCell className="px-5 py-4 sm:px-6 text-start">
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="primary"
-                          onClick={() => onButtonEditClicked?.(data)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => onButtonDeleteClicked(data.id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                tableData.map((item) => (
+                  <TableRow key={item.id}>{renderRow(item)}</TableRow>
                 ))
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={4}
+                    colSpan={tableCells.length}
                     className="py-12 text-center text-gray-400"
                   >
                     <div className="flex flex-col items-center gap-2">
                       <span className="text-4xl">📦</span>
-                      <span className="text-sm text-black">
-                        No products found
+                      <span className="text-sm text-black dark:text-gray-400">
+                        No data found
                       </span>
                     </div>
                   </TableCell>
