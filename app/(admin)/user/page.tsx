@@ -10,21 +10,21 @@ import Pagination from "@/components/pagination/Pagination";
 import TableComponent from "@/components/table/Table";
 import { useModal } from "@/components/modal/hooks/useModal";
 import ConfirmationModal from "@/components/modal/ui/ConfirmationModal";
-import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
 import Button from "@/components/button/Button";
 import { TableCell } from "@/components/table/ui";
 import { getUsers } from "@/services/userService";
 import { useUsers } from "@/hooks/users/useUser";
+import { useUpdateUser } from "@/hooks/users/useUpdateUser";
 
 type AlertType = { type: "success" | "error"; message: string } | null;
 
 export default function ProductPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useUsers(page);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User>();
   const [alert, setAlert] = useState<AlertType>(null);
 
-  const deleteMutation = useDeleteProduct();
+  const updateMutation = useUpdateUser();
   const queryClient = useQueryClient();
 
   // Auto-dismiss alert setelah 3 detik
@@ -46,22 +46,36 @@ export default function ProductPage() {
 
   const { isOpen, openModal, closeModal } = useModal();
 
-  const handleDelete = () => {
-    if (!selectedId) return;
-    deleteMutation.mutate(selectedId, {
-      onSuccess: () => {
-        closeModal();
-        setSelectedId(null);
-        setAlert({ type: "success", message: "Product deleted successfully." });
+  const handleToggleActive = () => {
+    // Gunakan selectedUser yang sudah diset di tombol aksi
+    if (!selectedUser) return;
+
+    const formData = new FormData();
+    // Menggunakan status kebalikan dari status saat ini
+    formData.append("is_active", (!selectedUser.is_active).toString());
+
+    updateMutation.mutate(
+      { id: selectedUser.id, data: formData },
+      {
+        onSuccess: () => {
+          closeModal();
+          // Reset user setelah sukses
+          setSelectedUser(undefined);
+          queryClient.invalidateQueries({ queryKey: ["users"] });
+          setAlert({
+            type: "success",
+            message: "User status updated successfully.",
+          });
+        },
+        onError: () => {
+          closeModal();
+          setAlert({
+            type: "error",
+            message: "Failed to update user. Please try again.",
+          });
+        },
       },
-      onError: () => {
-        closeModal();
-        setAlert({
-          type: "error",
-          message: "Failed to delete product. Please try again.",
-        });
-      },
-    });
+    );
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -146,7 +160,7 @@ export default function ProductPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => {
-                        setSelectedId(user.id);
+                        setSelectedUser(user);
                         openModal();
                       }}
                     >
@@ -162,7 +176,7 @@ export default function ProductPage() {
         <ConfirmationModal
           isOpen={isOpen}
           closeModal={closeModal}
-          handleSubmit={handleDelete}
+          handleSubmit={handleToggleActive}
         />
 
         <Pagination

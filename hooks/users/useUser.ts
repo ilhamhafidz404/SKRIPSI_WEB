@@ -16,3 +16,16 @@ export function useUsers(page: number) {
 //     queryFn: () => showProduct(code),
 //   });
 // }
+
+export const updateUser = async (id: number, data: FormData) => {
+  const res = await fetch(`http://localhost:8080/api/users/${id}`, {
+    method: "PUT",
+    body: data,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update product");
+  }
+
+  return res.json();
+};
