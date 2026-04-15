@@ -95,9 +95,8 @@ export default function ProductPage() {
       {/* Alert */}
       {alert && (
         <div
-          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${
-            alert.type === "success" ? "bg-green-500" : "bg-red-500"
-          }`}
+          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${alert.type === "success" ? "bg-green-500" : "bg-red-500"
+            }`}
         >
           <span>{alert.type === "success" ? "✅" : "❌"}</span>
           <span>{alert.message}</span>
@@ -143,11 +142,10 @@ export default function ProductPage() {
                 {/* Kolom Status */}
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      user.is_active
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                    }`}
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${user.is_active
+                      ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                      : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                      }`}
                   >
                     {user.is_active ? "Active" : "Inactive"}
                   </span>
