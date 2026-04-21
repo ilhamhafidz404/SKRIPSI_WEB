@@ -13,9 +13,11 @@ import {
   TableRow,
 } from "@/components/table/ui";
 import { useState } from "react";
+import API_URL from "@/lib/api";
+import IMAGE_URL from "@/lib/image";
 
 function QRModal({ serial, onClose }: { serial: string; onClose: () => void }) {
-  const qrUrl = `http://localhost:8080/api/items/${serial}/qr`;
+  const qrUrl = `${API_URL}/items/${serial}/qr`;
 
   return (
     <div
@@ -117,7 +119,7 @@ export default function ProductDetailPage() {
             {/* Bagian Gambar */}
             <div className="relative w-full md:w-1/3 aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <Image
-                src={`http://localhost:8080/uploads/${product.image}`}
+                src={`${IMAGE_URL}/${product.image}`}
                 alt={product.name}
                 fill
                 className="object-cover"

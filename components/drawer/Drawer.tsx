@@ -8,6 +8,7 @@ import Input from "../form/InputField";
 import DropzoneComponent from "../form/DropZone";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
 import { useCreateProduct } from "@/hooks/products/useCreateProduct";
+import IMAGE_URL from "@/lib/image";
 
 interface Props {
   action: "Add" | "Edit";
@@ -123,9 +124,8 @@ export default function ProductFormDrawer({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"
+          }`}
       />
 
       {/* Drawer */}
@@ -157,7 +157,7 @@ export default function ProductFormDrawer({
                   onFileSelect={handleImageSelect}
                   defaultImage={
                     product?.image
-                      ? `http://localhost:8080/uploads/${product.image}`
+                      ? `${IMAGE_URL}/${product.image}`
                       : undefined
                   }
                 />

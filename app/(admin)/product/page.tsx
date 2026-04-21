@@ -20,6 +20,7 @@ import ProductFormDrawer from "@/components/drawer/Drawer";
 import { TableCell } from "@/components/table/ui";
 import { formatRupiah } from "@/utils/FormatRupiah";
 import Image from "next/image";
+import IMAGE_URL from "@/lib/image";
 
 type AlertType = { type: "success" | "error"; message: string } | null;
 
@@ -103,9 +104,8 @@ export default function ProductPage() {
       {/* Alert */}
       {alert && (
         <div
-          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${
-            alert.type === "success" ? "bg-green-500" : "bg-red-500"
-          }`}
+          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${alert.type === "success" ? "bg-green-500" : "bg-red-500"
+            }`}
         >
           <span>{alert.type === "success" ? "✅" : "❌"}</span>
           <span>{alert.message}</span>
@@ -141,7 +141,7 @@ export default function ProductPage() {
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 overflow-hidden rounded relative">
                       <Image
-                        src={`http://localhost:8080/uploads/${product.image}`}
+                        src={`${IMAGE_URL}/${product.image}`}
                         alt={product.name}
                         fill
                         className="object-cover"
