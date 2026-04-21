@@ -21,6 +21,7 @@ import { TableCell } from "@/components/table/ui";
 import { formatRupiah } from "@/utils/FormatRupiah";
 import Image from "next/image";
 import IMAGE_URL from "@/lib/image";
+import Link from "next/link";
 
 type AlertType = { type: "success" | "error"; message: string } | null;
 
@@ -138,25 +139,27 @@ export default function ProductPage() {
             renderRow={(product: Product) => (
               <>
                 <TableCell className="px-5 py-4 sm:px-6 text-start">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 overflow-hidden rounded relative">
-                      <Image
-                        src={`${IMAGE_URL}/${product.image}`}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
+                  <Link href={`/product/${product.code}`} >
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 overflow-hidden rounded relative">
+                        <Image
+                          src={`${IMAGE_URL}/${product.image}`}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </div>
+                      <div>
+                        <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                          {product.name}
+                        </span>
+                        <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+                          {product.code}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                        {product.name}
-                      </span>
-                      <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                        {product.code}
-                      </span>
-                    </div>
-                  </div>
+                  </Link>
                 </TableCell>
 
                 {/* Kolom Price */}
