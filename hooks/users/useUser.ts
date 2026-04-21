@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "@/services/userService";
+const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export function useUsers(page: number) {
   return useQuery({
@@ -17,14 +18,15 @@ export function useUsers(page: number) {
 //   });
 // }
 
+
 export const updateUser = async (id: number, data: FormData) => {
-  const res = await fetch(`http://localhost:8080/api/users/${id}`, {
+  const res = await fetch(`${API_URL}/users/${id}`, {
     method: "PUT",
     body: data,
   });
 
   if (!res.ok) {
-    throw new Error("Failed to update product");
+    throw new Error("Failed to update user");
   }
 
   return res.json();

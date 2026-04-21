@@ -1,27 +1,29 @@
-export async function getProducts(page: number) {
-  const res = await fetch(`http://localhost:8080/api/products?page=${page}`);
+import API_URL from "@/lib/api";
+
+export const getProducts = async (page: number) => {
+  const res = await fetch(`${API_URL}/products?page=${page}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
 
   return res.json();
-}
+};
 
-export async function showProduct(code: string) {
-  const res = await fetch(`http://localhost:8080/api/products/${code}`);
+export const showProduct = async (code: string) => {
+  const res = await fetch(`${API_URL}/products/${code}`);
 
   if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    throw new Error("Failed to fetch product");
   }
 
   return res.json();
-}
+};
 
-export async function createProduct(formData: FormData) {
-  const res = await fetch("http://localhost:8080/api/products", {
+export const createProduct = async (data: FormData) => {
+  const res = await fetch(`${API_URL}/products`, {
     method: "POST",
-    body: formData,
+    body: data,
   });
 
   if (!res.ok) {
@@ -29,10 +31,10 @@ export async function createProduct(formData: FormData) {
   }
 
   return res.json();
-}
+};
 
 export const updateProduct = async (id: number, data: FormData) => {
-  const res = await fetch(`http://localhost:8080/api/products/${id}`, {
+  const res = await fetch(`${API_URL}/products/${id}`, {
     method: "PUT",
     body: data,
   });
@@ -45,7 +47,7 @@ export const updateProduct = async (id: number, data: FormData) => {
 };
 
 export const deleteProduct = async (id: number) => {
-  const res = await fetch(`http://localhost:8080/api/products/${id}`, {
+  const res = await fetch(`${API_URL}/products/${id}`, {
     method: "DELETE",
   });
 

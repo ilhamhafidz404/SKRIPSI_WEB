@@ -1,5 +1,9 @@
+import API_URL from "@/lib/api";
+
 export async function getUsers(page: number) {
-  const res = await fetch(`http://localhost:8080/api/users?page=${page}`);
+  const res = await fetch(`${API_URL}/users?page=${page}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch users");
