@@ -15,6 +15,7 @@ import { TableCell } from "@/components/table/ui";
 import { getUsers } from "@/services/userService";
 import { useUsers } from "@/hooks/users/useUser";
 import { useUpdateUser } from "@/hooks/users/useUpdateUser";
+import Link from "next/link";
 
 type AlertType = { type: "success" | "error"; message: string } | null;
 
@@ -128,9 +129,9 @@ export default function ProductPage() {
                         unoptimized
                       />
                     </div> */}
-                    <span className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                    <Link href={`/user/${user.id}`} className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
                       {user.name}
-                    </span>
+                    </Link>
                   </div>
                 </TableCell>
 

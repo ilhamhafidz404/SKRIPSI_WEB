@@ -12,15 +12,15 @@ export async function getUsers(page: number) {
   return res.json();
 }
 
-// export async function showProduct(code: string) {
-//   const res = await fetch(`http://localhost:8080/api/products/${code}`);
+export async function showUser(id: string) {
+  const res = await fetch(`${API_URL}/users/${id}`);
 
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch products");
-//   }
+  if (!res.ok) {
+    throw new Error("Failed to fetch user");
+  }
 
-//   return res.json();
-// }
+  return res.json();
+}
 
 // export async function createProduct(formData: FormData) {
 //   const res = await fetch("http://localhost:8080/api/products", {

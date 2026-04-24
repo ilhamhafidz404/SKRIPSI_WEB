@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "@/services/userService";
+import { getUsers, showUser } from "@/services/userService";
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export function useUsers(page: number) {
@@ -11,12 +11,13 @@ export function useUsers(page: number) {
   });
 }
 
-// export function useShowProduct(code: string) {
-//   return useQuery({
-//     queryKey: ["product", code],
-//     queryFn: () => showProduct(code),
-//   });
-// }
+export function useShowUser(id: string) {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: () => showUser(id),
+  });
+}
+
 
 
 export const updateUser = async (id: number, data: FormData) => {
