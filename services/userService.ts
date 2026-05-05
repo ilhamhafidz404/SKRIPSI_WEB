@@ -1,25 +1,25 @@
-import API_URL from "@/lib/api";
+// services/userService.ts
+import api from "@/lib/axios";
 
 export async function getUsers(page: number) {
-  const res = await fetch(`${API_URL}/users?page=${page}`, {
-    cache: "no-store",
-  });
+  try {
+    const res = await api.get("/users", {
+      params: { page },
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch users");
+    return res.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to fetch users");
   }
-
-  return res.json();
 }
 
 export async function showUser(id: string) {
-  const res = await fetch(`${API_URL}/users/${id}`);
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch user");
+  try {
+    const res = await api.get(`/users/${id}`);
+    return res.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to fetch user");
   }
-
-  return res.json();
 }
 
 // export async function createProduct(formData: FormData) {

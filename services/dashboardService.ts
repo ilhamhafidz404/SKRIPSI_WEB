@@ -1,13 +1,11 @@
-import API_URL from "@/lib/api";
+import api from "@/lib/axios";
+
 
 export async function getDashboard() {
-    const res = await fetch(`${API_URL}/dashboard`, {
-        cache: "no-store",
-    });
-
-    if (!res.ok) {
-        throw new Error("Failed to fetch dashboard");
+    try {
+        const res = await api.get("/dashboard");
+        return res.data;
+    } catch (error: any) {
+        throw new Error(error.response?.data?.message || "Failed to fetch dashboard");
     }
-
-    return res.json();
 }

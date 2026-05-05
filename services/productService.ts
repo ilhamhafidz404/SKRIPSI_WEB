@@ -1,59 +1,34 @@
-import API_URL from "@/lib/api";
+import api from "@/lib/axios";
 
 export const getProducts = async (page: number) => {
-  const res = await fetch(`${API_URL}/products?page=${page}`);
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch products");
-  }
-
-  return res.json();
+  const res = await api.get("/products", { params: { page } });
+  return res.data;
 };
 
 export const showProduct = async (code: string) => {
-  const res = await fetch(`${API_URL}/products/${code}`);
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch product");
-  }
-
-  return res.json();
+  const res = await api.get(`/products/${code}`);
+  return res.data;
 };
 
 export const createProduct = async (data: FormData) => {
-  const res = await fetch(`${API_URL}/products`, {
-    method: "POST",
-    body: data,
+  const res = await api.post("/products", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to create product");
-  }
-
-  return res.json();
+  return res.data;
 };
 
 export const updateProduct = async (id: number, data: FormData) => {
-  const res = await fetch(`${API_URL}/products/${id}`, {
-    method: "PUT",
-    body: data,
+  const res = await api.put(`/products/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to update product");
-  }
-
-  return res.json();
+  return res.data;
 };
 
 export const deleteProduct = async (id: number) => {
-  const res = await fetch(`${API_URL}/products/${id}`, {
-    method: "DELETE",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete product");
-  }
-
-  return res.json();
+  const res = await api.delete(`/products/${id}`);
+  return res.data;
 };
