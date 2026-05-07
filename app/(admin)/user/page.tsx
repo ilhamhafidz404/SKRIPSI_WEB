@@ -163,7 +163,7 @@ export default function ProductPage() {
                         openModal();
                       }}
                     >
-                      Delete
+                      Change Status
                     </Button>
                   </div>
                 </TableCell>

@@ -236,7 +236,7 @@ export default function ProductFormDrawer({
               <button
                 type="submit"
                 disabled={isPending}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg disabled:opacity-50 hover:bg-blue-700 transition-colors"
+                className="bg-[#C0202A] text-white px-6 py-2 rounded-lg disabled:opacity-50 hover:bg-[#C0202A]/80 transition-colors"
               >
                 {isPending
                   ? "Saving..."

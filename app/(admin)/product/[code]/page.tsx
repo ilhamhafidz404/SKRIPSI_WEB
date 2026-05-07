@@ -185,7 +185,7 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="border-y py-4">
-                <p className="text-2xl font-semibold text-brand-500">
+                <p className="text-2xl font-semibold text-[#C0202A]">
                   Rp {product.price?.toLocaleString("id-ID")}
                 </p>
                 <p className="text-sm">Stok tersedia: {product.stock}</p>
