@@ -23,110 +23,106 @@ export default function LoginPage() {
 
   if (status === "loading" || status === "authenticated") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="w-9 h-9 border-2 border-[#C0202A] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="w-10 h-10 border-2 border-[#C0202A] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 overflow-hidden">
-      {/* Background pattern */}
-      {/* <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(192,32,42,0.08)_1px,_transparent_1px)] [background-size:28px_28px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_#E8DDD5_100%)]" /> */}
+    <div className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden font-sans">
+      {/* 1. Background Image - Seirama dengan Mobile */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1654676066221-500d63a81951?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      />
 
-      {/* Card */}
-      <div className="relative w-full max-w-sm bg-[#FFF] shadow-[0_0_0_1px_rgba(192,32,42,0.1),0_4px_6px_rgba(192,32,42,0.06),0_20px_60px_rgba(44,26,26,0.12)] overflow-hidden animate-[fadeUp_0.5s_ease]">
-        {/* Top bar */}
-        <div className="h-1 bg-gradient-to-r from-[#8B0000] via-[#C0202A] to-[#E8312A]" />
+      {/* 2. Dark Overlay */}
+      <div className="absolute inset-0 bg-black/60 z-10" />
 
-        <div className="px-10 py-9">
-          {/* Logo */}
-          {/* <div className="flex items-center gap-4 mb-5">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#C0202A40]" />
+      {/* 3. Luxury Glass Card */}
+      <div className="relative z-20 w-full max-w-[400px] backdrop-blur-xl bg-white/10 rounded-[32px] border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden animate-[fadeUp_0.8s_ease-out]">
 
-            <div className="w-14 h-14 rounded-full border border-[#C0202A25] bg-[#C0202A10] flex items-center justify-center">
-              <span className="text-[#C0202A] font-bold text-lg">R</span>
-            </div>
+        {/* Decorative Top Glow */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
-            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#C0202A40]" />
-          </div> */}
+        <div className="px-10 py-12 flex flex-col items-center">
 
-          {/* Brand */}
-          <p className="text-[9px] tracking-[0.5em] text-[#C0202A] uppercase text-center font-mono mb-1">
-            Redline Apparel
+          {/* Brand Header */}
+          <div className="mb-8 text-center">
+            <p className="text-[10px] tracking-[0.6em] text-[#C0202A] uppercase font-bold mb-2">
+              Redline Apparel
+            </p>
+            <h1 className="text-4xl tracking-[0.2em] text-white uppercase font-light">
+              CertiPath
+            </h1>
+            <p className="text-sm text-white/60 text-center leading-relaxed mb-5 font-light max-w-[280px] mt-4">
+              Securing Authenticity on Chain
+            </p>
+            <div className="h-[1px] w-12 bg-[#C0202A] mx-auto mt-4 opacity-60" />
+          </div>
+
+
+          <p className="text-sm text-white/60 text-center leading-relaxed mb-10 font-light max-w-[280px]">
+            Sign in to access your secure product verification dashboard.
           </p>
 
-          <h1 className="text-2xl tracking-[0.18em] text-[#2C1A1A] uppercase text-center mb-1">
-            CertiPath
-          </h1>
-
-          <p className="text-[8px] tracking-[0.35em] text-[#2C1A1A40] uppercase text-center font-mono">
-            Product Authentication System
-          </p>
-
-          {/* Divider */}
-          {/* <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-[#C0202A20]" />
-            <div className="w-2 h-2 rotate-45 bg-[#C0202A50]" />
-            <div className="flex-1 h-px bg-[#C0202A20]" />
-          </div> */}
-
-          {/* Tagline */}
-          <p className="text-sm text-[#2C1A1A80] text-center leading-relaxed mb-6 mt-7">
-            Sign in to access the dashboard and manage product authenticity
-            records secured by blockchain.
-          </p>
-
-          {/* Button */}
+          {/* Login Button - Luxury Style */}
           <button
             onClick={handleGoogleLogin}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 border border-[#C0202A40] bg-[#FAF7F2] hover:bg-[#F5EFE7] transition shadow-sm active:scale-95"
+            className="group relative w-full flex items-center justify-center gap-4 py-4 bg-white text-black rounded-2xl transition-all duration-300 hover:bg-gray-100 active:scale-[0.98] disabled:opacity-70 overflow-hidden shadow-xl"
           >
             {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-[#C0202A] border-t-transparent rounded-full animate-spin" />
-                <span className="text-xs tracking-widest font-mono">
-                  Signing in...
-                </span>
-              </>
+              <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
-                <GoogleIcon />
-                <span className="text-xs tracking-widest font-mono uppercase">
+                <div className="transition-transform duration-300 group-hover:scale-110">
+                  <GoogleIcon />
+                </div>
+                <span className="text-xs tracking-[0.2em] font-bold uppercase">
                   Continue with Google
                 </span>
               </>
             )}
           </button>
 
-          {/* Footer */}
-          <p className="text-[8px] tracking-[0.2em] text-[#2C1A1A40] uppercase text-center mt-5 font-mono">
-            Access is restricted to authorized personnel only.
-          </p>
+          {/* Small Footer inside Card */}
+          <div className="mt-10 flex items-center gap-2 opacity-30">
+            <div className="w-1 h-1 bg-white rounded-full" />
+            <p className="text-[9px] tracking-[0.2em] text-white uppercase font-medium">
+              Encrypted by CertiPath Protocol
+            </p>
+            <div className="w-1 h-1 bg-white rounded-full" />
+          </div>
         </div>
-
-        {/* Bottom bar */}
-        <div className="h-1 bg-gradient-to-r from-[#8B0000] via-[#C0202A] to-[#E8312A]" />
       </div>
 
-      {/* Footer */}
-      <p className="mt-6 text-[8px] tracking-[0.25em] text-[#2C1A1A40] uppercase font-mono">
-        © {new Date().getFullYear()} Redline Apparel · CertiPath v1.0
-      </p>
+      {/* Global Footer */}
+      <footer className="relative z-20 mt-8 flex flex-col items-center gap-2">
+        <p className="text-[9px] tracking-[0.3em] text-white/30 uppercase font-medium">
+          © {new Date().getFullYear()} Redline Apparel · CertiPath v1.0
+        </p>
+      </footer>
 
-      {/* Animation */}
+      {/* Custom Keyframes */}
       <style jsx global>{`
         @keyframes fadeUp {
           from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+        body {
+          background-color: #0a0a0a;
         }
       `}</style>
     </div>
