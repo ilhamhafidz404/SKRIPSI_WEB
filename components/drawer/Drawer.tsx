@@ -82,6 +82,12 @@ export default function ProductFormDrawer({
   };
 
   const onSubmit = (data: ProductFormValues) => {
+    if (action === "Add" && !imageFile) {
+      // onClose();
+      onError?.("Image is required.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("code", data.code);

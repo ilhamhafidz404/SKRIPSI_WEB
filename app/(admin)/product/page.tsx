@@ -105,7 +105,7 @@ export default function ProductPage() {
       {/* Alert */}
       {alert && (
         <div
-          className={`fixed top-5 right-5 z-99999 flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${alert.type === "success" ? "bg-green-500" : "bg-red-500"
+          className={`fixed top-5 right-5 z-[999999999] flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg text-white text-sm transition-all duration-300 ${alert.type === "success" ? "bg-green-500" : "bg-red-500"
             }`}
         >
           <span>{alert.type === "success" ? "✅" : "❌"}</span>
