@@ -14,7 +14,7 @@ export async function middleware(req: any) {
     return NextResponse.next();
   }
 
-  // kalau belum login → redirect
+  // redirect jika belum login
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -23,5 +23,10 @@ export async function middleware(req: any) {
 }
 
 export const config = {
-  matcher: ["/", "/products/:path*"],
+  matcher: [
+    "/",
+    "/dashboard/:path*",
+    "/user/:path*",
+    "/product/:path*",
+  ],
 };
