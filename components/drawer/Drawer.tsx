@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Product } from "@/types/product";
 import Label from "../form/Label";
 import Input from "../form/InputField";
 import DropzoneComponent from "../form/DropZone";
+import RichEditor from "../form/RichEditor";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
 import { useCreateProduct } from "@/hooks/products/useCreateProduct";
 import IMAGE_URL from "@/lib/image";
@@ -24,6 +25,7 @@ interface ProductFormValues {
   code: string;
   price: string;
   stock: string;
+  description: string;
 }
 
 export default function ProductFormDrawer({
@@ -45,9 +47,16 @@ export default function ProductFormDrawer({
     reset,
     setValue,
     watch,
+    control, // Dibutuhkan untuk Controller
     formState: { errors },
   } = useForm<ProductFormValues>({
-    defaultValues: { name: "", code: "", price: "", stock: "" },
+    defaultValues: {
+      name: "",
+      code: "",
+      price: "",
+      stock: "",
+      description: ""
+    },
   });
 
   useEffect(() => {
@@ -57,6 +66,7 @@ export default function ProductFormDrawer({
         code: product?.code || "",
         price: product?.price?.toString() || "",
         stock: product?.stock?.toString() || "",
+        description: product?.description || "", // Reset nilai deskripsi (HTML)
       });
       setImageFile(null);
     }
@@ -83,7 +93,6 @@ export default function ProductFormDrawer({
 
   const onSubmit = (data: ProductFormValues) => {
     if (action === "Add" && !imageFile) {
-      // onClose();
       onError?.("Image is required.");
       return;
     }
@@ -93,6 +102,8 @@ export default function ProductFormDrawer({
     formData.append("code", data.code);
     formData.append("price", data.price);
     formData.append("stock", data.stock);
+    formData.append("description", data.description);
+
     if (imageFile) formData.append("image", imageFile);
 
     if (action === "Edit" && product) {
@@ -130,8 +141,7 @@ export default function ProductFormDrawer({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
       />
 
       {/* Drawer */}
@@ -191,6 +201,24 @@ export default function ProductFormDrawer({
                   readonly
                   className="bg-gray-100"
                   {...register("code")}
+                />
+              </div>
+
+              <div>
+                <Label>Description</Label>
+                <Controller
+                  name="description"
+                  control={control}
+                  key={product?.id || "new"}
+                  rules={{ required: "Description is required" }}
+                  render={({ field }) => (
+                    <RichEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={!!errors.description}
+                      hint={errors.description?.message}
+                    />
+                  )}
                 />
               </div>
 

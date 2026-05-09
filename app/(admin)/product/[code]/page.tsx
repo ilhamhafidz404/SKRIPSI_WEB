@@ -193,9 +193,15 @@ export default function ProductDetailPage() {
 
               <div className="pt-2">
                 <h3 className="font-medium text-gray-700">Deskripsi</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {product.description || "Tidak ada deskripsi untuk produk ini."}
-                </p>
+                <div className="text-gray-600 leading-relaxed prose dark:prose-invert max-w-none">
+                  {product.description ? (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
+                  ) : (
+                    "Tidak ada deskripsi untuk produk ini."
+                  )}
+                </div>
               </div>
             </div>
           </div>
