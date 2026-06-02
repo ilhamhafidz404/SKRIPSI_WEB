@@ -53,8 +53,8 @@ export default function DashboardPage() {
       <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total Users" value={data?.data?.total_user} icon={<IconPerson />} trend="+12%" isPrimary={false} />
         <StatCard label="Products Auth" value={data?.data?.total_product} icon={<IconCube />} trend="+5%" isPrimary={true} />
-        <StatCard label="Security Logs" value="842" icon={<IconShieldCheck />} trend="Secure" isPrimary={false} />
-        <StatCard label="Uptime" value="99.9%" icon={<IconChartTrending />} trend="Optimal" isPrimary={false} />
+        {/* <StatCard label="Security Logs" value="842" icon={<IconShieldCheck />} trend="Secure" isPrimary={false} />
+        <StatCard label="Uptime" value="99.9%" icon={<IconChartTrending />} trend="Optimal" isPrimary={false} /> */}
       </section>
 
       {/* --- REFINED CHART SECTION --- */}
@@ -62,12 +62,12 @@ export default function DashboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
           <div>
             <h3 className="text-xl font-bold tracking-tight text-slate-900">Authentication Traffic</h3>
-            <p className="text-sm text-slate-400 font-medium">Weekly product verification activity on blockchain</p>
+            <p className="text-sm text-slate-400 font-medium">Product verification activity on blockchain</p>
           </div>
-          <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+          {/* <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
             <button className="px-4 py-1.5 bg-white shadow-sm rounded-lg text-[10px] font-bold uppercase tracking-widest text-slate-900">Weekly</button>
             <button className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600">Monthly</button>
-          </div>
+          </div> */}
         </div>
 
         <div className="h-[350px] w-full">
