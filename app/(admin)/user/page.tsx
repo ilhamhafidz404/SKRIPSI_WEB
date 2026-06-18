@@ -114,7 +114,13 @@ export default function ProductPage() {
         <CardComponent title="User List">
           <TableComponent
             tableCells={["User", "Email", "Status", "Action"]}
-            tableData={data?.data}
+            tableData={
+              data?.data.filter(
+                (user: User) =>
+                  user.name?.trim() !== "" &&
+                  user.email?.trim() !== ""
+              ) || []
+            }
             renderRow={(user: User) => (
               <>
                 {/* Kolom User (Avatar + Name) */}
